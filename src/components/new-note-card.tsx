@@ -1,8 +1,62 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
+import { ChangeEvent, FormEvent, useState } from 'react'
+import { toast } from 'sonner'
 
+interface NewNoteCardProps {
+  onNoteCreated: (content: string) => void
+}
 
-export function NewNoteCard() {
+export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
+  const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
+  const [content, setContent] = useState('')
+  const [isRecording, setIsRecording] =  useState(false)
+
+  function handleStartEditor() {
+    setShouldShowOnboarding(false)
+  }
+
+  function handleContentChanged(event: ChangeEvent<HTMLTextAreaElement>) {
+    setContent(event.target.value)
+
+    if (event.target.value === '') {
+      setShouldShowOnboarding(true)
+    }
+  }
+
+  function handleSaveNote(event: FormEvent) {
+    event.preventDefault()
+
+    if (content === '') {
+      return
+    }
+
+    onNoteCreated(content)
+
+    setContent('')
+    setShouldShowOnboarding(true)
+
+    toast.success('Nota criada com sucesso!')
+  }
+
+  function handleStartRecording() {
+    setIsRecording(true)
+
+    const isSpeechRecognitionAPIAvailable = 'SpeechRecognition' in window
+      || 'webkitSpeechRecognition' in window
+
+      if (!isSpeechRecognitionAPIAvailable) {
+        alert('Infelizmente seu navegador não suporta a API de gravação!')
+        return
+      }
+
+      const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition
+  }
+
+  function handleStopRecording() {
+    setIsRecording(false)
+  }
+
     return (
       <Dialog.Root>
         <Dialog.Trigger className="rounded-md flex flex-col text-left bg-slate-700 p-6 gap-3 outline-none hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
@@ -21,23 +75,46 @@ export function NewNoteCard() {
                 <X className='size-5'/>
               </Dialog.Close>
               
-              <div className='flex flex-1 flex-col gap-3 p-5' >
+              <form className='flex-1 flex flex-col'>
+                <div className='flex flex-1 flex-col gap-3 p-5' >
 
-                <span className="text-sm font-medium text-slate-300">
-                  Adicionar nota
-                </span>
-                <p className="text-sm leading-6 text-slate-400">
-                  Comece <button className=' font-medium text-lime-400 hover:underline'>gravando uma nota</button> em áudio ou se preferir <button className='font-medium text-lime-400 hover:underline'>utilize apenas texto</button>.
-                </p>
+                  <span className="text-sm font-medium text-slate-300">
+                    Adicionar nota
+                  </span>
+                  
+                  {shouldShowOnboarding ? (
+                    <p className="text-sm leading-6 text-slate-400">
+                    Comece <button type='button' onClick={handleStartRecording} className=' font-medium text-lime-400 hover:underline'>gravando uma nota</button> em áudio ou se preferir <button type='button' onClick={handleStartEditor} className='font-medium text-lime-400 hover:underline'>utilize apenas texto</button>.
+                    </p>
+                  ) : (
+                    <textarea 
+                    autoFocus 
+                    className='texto-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none'
+                    onChange={handleContentChanged}
+                    value={content}
+                    />
+                  )}
+                </div>
 
-              </div>
-
-              <button 
-                type='button'
-                className='w-full bg-lime-400 py-4 text-center text-sm text-lime-950 outline-none hover:bg-lime-500'
-              >
-                    Salvar nota
-              </button>
+                {isRecording ? (
+                  <button 
+                  type='button'
+                  onClick={handleStopRecording}
+                  className='w-full flex items-center justify-center gap-2 bg-slate-900 py-4 text-center text-sm text-slate-300 outline-none hover:text-slate-100'
+                >
+                      <div className='size-3 rounded-full bg-red-500 animate-pulse' />
+                      Gravando! (clique p/ interromper)
+                  </button>
+                ) : (
+                  <button 
+                  type='button'
+                  onClick={handleSaveNote}
+                  className='w-full bg-lime-400 py-4 text-center text-sm text-lime-950 outline-none hover:bg-lime-500'
+                >
+                      Salvar nota
+                 </button>
+                )}
+              </form>
             </Dialog.Content>
           </Dialog.Portal>
       </Dialog.Root>
