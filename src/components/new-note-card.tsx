@@ -10,7 +10,10 @@ interface NewNoteCardProps {
 export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
   const [content, setContent] = useState('')
+<<<<<<< HEAD
   const [isRecording, setIsRecording] =  useState(false)
+=======
+>>>>>>> 3c5dc01ce719a2f9f9ab929674888f8c3d03eaac
 
   function handleStartEditor() {
     setShouldShowOnboarding(false)
@@ -27,10 +30,13 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   function handleSaveNote(event: FormEvent) {
     event.preventDefault()
 
+<<<<<<< HEAD
     if (content === '') {
       return
     }
 
+=======
+>>>>>>> 3c5dc01ce719a2f9f9ab929674888f8c3d03eaac
     onNoteCreated(content)
 
     setContent('')
@@ -38,6 +44,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
 
     toast.success('Nota criada com sucesso!')
   }
+<<<<<<< HEAD
 
   function handleStartRecording() {
     setIsRecording(true)
@@ -56,6 +63,8 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   function handleStopRecording() {
     setIsRecording(false)
   }
+=======
+>>>>>>> 3c5dc01ce719a2f9f9ab929674888f8c3d03eaac
 
     return (
       <Dialog.Root>
@@ -75,7 +84,11 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
                 <X className='size-5'/>
               </Dialog.Close>
               
+<<<<<<< HEAD
               <form className='flex-1 flex flex-col'>
+=======
+              <form onSubmit={handleSaveNote} className='flex-1 flex flex-col'>
+>>>>>>> 3c5dc01ce719a2f9f9ab929674888f8c3d03eaac
                 <div className='flex flex-1 flex-col gap-3 p-5' >
 
                   <span className="text-sm font-medium text-slate-300">
@@ -84,7 +97,11 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
                   
                   {shouldShowOnboarding ? (
                     <p className="text-sm leading-6 text-slate-400">
+<<<<<<< HEAD
                     Comece <button type='button' onClick={handleStartRecording} className=' font-medium text-lime-400 hover:underline'>gravando uma nota</button> em áudio ou se preferir <button type='button' onClick={handleStartEditor} className='font-medium text-lime-400 hover:underline'>utilize apenas texto</button>.
+=======
+                    Comece <button className=' font-medium text-lime-400 hover:underline'>gravando uma nota</button> em áudio ou se preferir <button onClick={handleStartEditor} className='font-medium text-lime-400 hover:underline'>utilize apenas texto</button>.
+>>>>>>> 3c5dc01ce719a2f9f9ab929674888f8c3d03eaac
                     </p>
                   ) : (
                     <textarea 
@@ -96,6 +113,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
                   )}
                 </div>
 
+<<<<<<< HEAD
                 {isRecording ? (
                   <button 
                   type='button'
@@ -114,6 +132,14 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
                       Salvar nota
                  </button>
                 )}
+=======
+                <button 
+                  type='submit'
+                  className='w-full bg-lime-400 py-4 text-center text-sm text-lime-950 outline-none hover:bg-lime-500'
+                >
+                      Salvar nota
+                </button>
+>>>>>>> 3c5dc01ce719a2f9f9ab929674888f8c3d03eaac
               </form>
             </Dialog.Content>
           </Dialog.Portal>
