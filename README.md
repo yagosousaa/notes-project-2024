@@ -24,7 +24,7 @@ O NLW, ou Next Level Week, é o maior evento de programação na prática oferec
 
 ### Link do Projeto
 
-🚀 https://yagosousaa.github.io/sprint1-projeto-decodificador](https://yagosousaa.github.io/notes-project-2024/
+🚀 https://yagosousaa.github.io/notes-project-2024/
 
 ### 👨‍💻 Tecnologias
 
